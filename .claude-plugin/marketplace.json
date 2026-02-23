@@ -22,12 +22,10 @@
     },
     {
       "name": "frontend-slides",
-      "source": {
-        "source": "github",
-        "repo": "zarazhangrui/frontend-slides",
-        "sha": "89a909bb09991b1b0b1e7658c7df8447dc2fa5c6"
-      },
+      "source": "./plugins/frontend-slides",
       "description": "Create stunning, zero-dependency HTML presentations from scratch or by converting PowerPoint files.",
+      "version": "1.0.0",
+      "upstream": "zarazhangrui/frontend-slides@89a909bb09991b1b0b1e7658c7df8447dc2fa5c6",
       "author": {
         "name": "zarazhangrui"
       },

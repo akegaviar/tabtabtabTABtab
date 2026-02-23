@@ -1,16 +1,11 @@
 # bonbonki
 
 ```
-     ┌─────────────────────────────────────────┐
-     │  >=<  >=<    b o n b o n k i    >=<  >=< │
-     │                                          │
-     │       your favorite tab                  │
-     │            isn't a browser               │
-     │                                          │
-     │    ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐   │
-     │    │ ◆ │  │ ◇ │  │ ◆ │  │ ◇ │  │ ◆ │   │
-     │    └───┘  └───┘  └───┘  └───┘  └───┘   │
-     └─────────────────────────────────────────┘
+ >==( X _ ◉ )==<
+
+  b o n b o n k i
+  your favorite tab
+       isn't a browser
 ```
 
 A curated channel of Claude Code skills — useful, experimental, and entertaining.

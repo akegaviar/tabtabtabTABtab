@@ -5,7 +5,7 @@ A curated channel of Claude Code skills — useful, experimental, and entertaini
 ## Install
 
 ```
-/plugin marketplace add ake/bonbonki
+/plugin marketplace add akegaviar/bonbonki
 ```
 
 Then install individual skills:

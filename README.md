@@ -1,9 +1,9 @@
-# bonbonki
+# tabtabtabtabtab
 
 ```
  >==( X _ ◉ )==<
 
-  b o n b o n k i
+  t a b t a b t a b t a b t a b
   your favorite tab
        isn't a browser
 ```
@@ -13,13 +13,13 @@ A curated channel of Claude Code skills — useful, experimental, and entertaini
 ## Install
 
 ```
-/plugin marketplace add akegaviar/bonbonki
+/plugin marketplace add akegaviar/tabtabtabtabtab
 ```
 
 Then install individual skills:
 
 ```
-/plugin install spice-must-flow@bonbonki
+/plugin install spice-must-flow@tabtabtabtabtab
 ```
 
 ## Skills
@@ -31,16 +31,16 @@ Then install individual skills:
 
 ## For skill authors
 
-Bonbonki curates skills from the community. If your skill is featured here, you'll find:
+tabtabtabtabtab curates skills from the community. If your skill is featured here, you'll find:
 
 - **Credit** in the marketplace catalog with your name and repo linked
 - **A promo slot** — a link displayed to every user who runs your skill. You control what it points to (your repo, your site, a project). Submit changes via PR to `promos/promos.json`
 
 ### How skills are included
 
-Claude Code plugins require skills at `skills/<name>/SKILL.md` relative to the plugin root. If your repo already follows this structure, bonbonki references it directly via GitHub URL. If your SKILL.md is at the repo root (the most common layout), bonbonki copies it into the monorepo and restructures it to work as a plugin.
+Claude Code plugins require skills at `skills/<name>/SKILL.md` relative to the plugin root. If your repo already follows this structure, tabtabtabtabtab references it directly via GitHub URL. If your SKILL.md is at the repo root (the most common layout), tabtabtabtabtab copies it into the monorepo and restructures it to work as a plugin.
 
-**Want bonbonki to reference your repo directly?** Restructure to:
+**Want tabtabtabtabtab to reference your repo directly?** Restructure to:
 
 ```
 your-repo/
@@ -53,7 +53,7 @@ Open an issue or PR and we'll swap the monorepo copy for a direct reference to y
 
 ### Suggest a skill
 
-Know a great skill that should be here? [Open an issue](https://github.com/akegaviar/bonbonki/issues) with a link to the repo.
+Know a great skill that should be here? [Open an issue](https://github.com/akegaviar/tabtabtabtabtab/issues) with a link to the repo.
 
 ## License
 

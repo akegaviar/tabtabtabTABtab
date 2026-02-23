@@ -1,14 +1,6 @@
 # tabtabtabtabtab
 
-```
- >==( X _ ◉ )==<
-
-  t a b t a b t a b t a b t a b
-  your favorite tab
-       isn't a browser
-```
-
-A curated channel of Claude Code skills — useful, experimental, and entertaining.
+close the browser.
 
 ## Install
 

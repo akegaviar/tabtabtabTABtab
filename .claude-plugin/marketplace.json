@@ -20,6 +20,22 @@
       "category": "flow-tools",
       "tags": ["flow-state", "companion", "reflection", "session-observer"],
       "strict": false
+    },
+    {
+      "name": "frontend-slides",
+      "source": {
+        "source": "github",
+        "repo": "zarazhangrui/frontend-slides",
+        "sha": "89a909bb09991b1b0b1e7658c7df8447dc2fa5c6"
+      },
+      "description": "Create stunning, zero-dependency HTML presentations from scratch or by converting PowerPoint files.",
+      "author": {
+        "name": "zarazhangrui"
+      },
+      "license": "MIT",
+      "category": "creative-tools",
+      "tags": ["slides", "presentations", "html", "design"],
+      "strict": false
     }
   ]
 }

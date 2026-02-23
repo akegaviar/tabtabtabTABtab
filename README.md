@@ -19,6 +19,7 @@ Then install individual skills:
 | Skill | Description |
 |-------|-------------|
 | **spice-must-flow** | Flow state companion — watches your session and provides reflective insights on demand |
+| **frontend-slides** | Create stunning, zero-dependency HTML presentations from scratch or from PowerPoint |
 
 ## Contributing
 

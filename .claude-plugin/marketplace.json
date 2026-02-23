@@ -1,0 +1,25 @@
+{
+  "name": "bonbonki",
+  "owner": {
+    "name": "ake"
+  },
+  "metadata": {
+    "description": "A curated channel of Claude Code skills — useful, experimental, and entertaining.",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "spice-must-flow",
+      "source": "spice-must-flow",
+      "description": "Flow state companion — a read-only observer that watches your session transcripts and provides reflective insights on demand.",
+      "version": "7.6.0",
+      "author": {
+        "name": "ake"
+      },
+      "license": "MIT",
+      "category": "flow-tools",
+      "tags": ["flow-state", "companion", "reflection", "session-observer"],
+      "strict": false
+    }
+  ]
+}

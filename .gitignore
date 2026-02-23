@@ -1,0 +1,9 @@
+# Working files (not part of the marketplace)
+thoughts/
+idea_research_log.md
+claude-code-docs/
+
+# OS
+.DS_Store
+__pycache__/
+*.pyc

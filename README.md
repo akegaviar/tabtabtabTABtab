@@ -1,5 +1,7 @@
 # bonbonki
 
+Your favorite tab isn't a browser.
+
 A curated channel of Claude Code skills — useful, experimental, and entertaining.
 
 ## Install

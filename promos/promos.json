@@ -2,5 +2,9 @@
   "spice-must-flow": {
     "url": "https://github.com/akegaviar/bonbonki",
     "text": "bonbonki — your favorite tab isn't a browser"
+  },
+  "frontend-slides": {
+    "url": "https://github.com/zarazhangrui/frontend-slides",
+    "text": "frontend-slides — stunning HTML presentations, zero dependencies"
   }
 }

@@ -4,18 +4,22 @@
     "name": "ake"
   },
   "metadata": {
-    "description": "A curated channel of Claude Code skills — useful, experimental, and entertaining."
+    "description": "A curated channel of Claude Code skills — useful, experimental, and entertaining.",
+    "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "spice-must-flow",
       "source": "./plugins/spice-must-flow",
       "description": "Flow state companion — a read-only observer that watches your session transcripts and provides reflective insights on demand.",
-      "version": "7.6.0",
+      "version": "8.0.0",
       "author": {
         "name": "ake"
       },
+      "homepage": "https://github.com/akegaviar/tabtabtabtabtab/blob/main/plugins/spice-must-flow/README.md",
+      "repository": "https://github.com/akegaviar/tabtabtabtabtab",
       "license": "MIT",
+      "keywords": ["flow-state", "session-observer", "companion", "reflection", "timeline", "harness"],
       "category": "flow-tools",
       "tags": ["flow-state", "companion", "reflection", "session-observer"],
       "strict": false
@@ -28,7 +32,10 @@
       "author": {
         "name": "zarazhangrui"
       },
+      "homepage": "https://github.com/zarazhangrui/frontend-slides/blob/main/README.md",
+      "repository": "https://github.com/zarazhangrui/frontend-slides",
       "license": "MIT",
+      "keywords": ["slides", "presentations", "html", "design", "powerpoint"],
       "category": "creative-tools",
       "tags": ["slides", "presentations", "html", "design"],
       "strict": false

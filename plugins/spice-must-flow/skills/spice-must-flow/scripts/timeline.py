@@ -5,7 +5,7 @@ Session-based, proportional-width, interleaved User/Claude visualization.
 - Sessions separated by 10+ min gaps
 - Single row per session with interleaved blocks
 - Width proportional to duration
-- Characters: ░ (User), █ (Claude <2min), ▓ (Claude >2min drift risk)
+- Characters: ░ (User), █ (Claude)
 """
 import json
 import os

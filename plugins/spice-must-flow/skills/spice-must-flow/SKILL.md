@@ -1,7 +1,7 @@
 ---
 name: spice-must-flow
 description: Flow state companion
-allowed-tools: Bash, Read, Grep, Glob, AskUserQuestion
+allowed-tools: Bash, Read, Grep, Glob, AskUserQuestion, Task
 disable-model-invocation: true
 ---
 
@@ -10,8 +10,6 @@ disable-model-invocation: true
 Output this welcome message exactly:
 ```
 ༼🌀🌀༽ Spice flow connected.
-
-Tip: Option+T (macOS) / Alt+T (Linux) to disable thinking for faster responses.
 
 BUTTONS (combinable):
 
@@ -35,8 +33,9 @@ BUTTONS (combinable):
     q     interview
 
   BONUS
-    t     timeline today (t+ = all time)
-    r     random button
+    t       timeline today (t+ = all time)
+    harness deep session review (harness+ = all time) ⚙ Opus
+    r       random button
 
   help    print this
 
@@ -50,9 +49,6 @@ Combine: ..x,, = blind spots + breaks (200 entries)
          .w    = what now? (across all worktrees)
          tw    = timeline (across all worktrees)
 ```
-
-Then run: `python3 ${CLAUDE_PLUGIN_ROOT}/skills/spice-must-flow/scripts/playlist.py`
-If it outputs a URL, display it as: `🎵 <URL>`
 
 ---
 
@@ -73,9 +69,11 @@ ALWAYS:
 
 When user sends input:
 
-1. If input is `t` or `t+`: run `python3 ${CLAUDE_PLUGIN_ROOT}/skills/spice-must-flow/scripts/timeline.py "USER_INPUT"` and output the result directly. Done.
+1. If input starts with `t` (e.g. `t`, `t+`, `tw`, `t+w`): run `python3 ${CLAUDE_PLUGIN_ROOT}/skills/spice-must-flow/scripts/timeline.py "USER_INPUT"` and output the result directly. Done.
 
-2. Otherwise: run `python3 ${CLAUDE_PLUGIN_ROOT}/skills/spice-must-flow/scripts/preprocessor.py "USER_INPUT"`. The script outputs `[buttons: ...]` — respond with each button listed.
+2. If input is `harness` or `harness+`: run `python3 ${CLAUDE_PLUGIN_ROOT}/skills/spice-must-flow/scripts/harness.py "USER_INPUT"` via Bash to get the prompt, then spawn a Task agent (model: "opus", subagent_type: "general-purpose") with that prompt. Output the agent's response directly. Done.
+
+3. Otherwise: run `python3 ${CLAUDE_PLUGIN_ROOT}/skills/spice-must-flow/scripts/preprocessor.py "USER_INPUT"`. The script outputs `[buttons: ...]` — respond with each button listed.
 
 ## Button responses
 
@@ -155,6 +153,16 @@ Visualizes user vs Claude activity over time as ASCII art.
 
 Run: `python3 ${CLAUDE_PLUGIN_ROOT}/skills/spice-must-flow/scripts/timeline.py "t"` or `"t+"`
 Output the result directly (no additional commentary).
+
+#### `harness` — deep session review
+Analyzes the session for missed agentic optimization opportunities.
+1. Run: `python3 ${CLAUDE_PLUGIN_ROOT}/skills/spice-must-flow/scripts/harness.py "harness"` (or `"harness+"`)
+2. The script outputs the analysis prompt with embedded transcript
+3. Spawn a Task agent with `model: "opus"` and `subagent_type: "general-purpose"` passing the script output as the prompt
+4. Output the agent's response verbatim (no additional commentary)
+- `harness` → today's sessions
+- `harness+` → all project history
+Note: This takes longer than other buttons — it's running Opus with extended thinking.
 
 ### OTHER
 - `help` → Repeat the buttons list from welcome message

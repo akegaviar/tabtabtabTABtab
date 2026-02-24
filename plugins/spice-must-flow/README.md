@@ -122,25 +122,7 @@ Width proportional to duration. `t` for today, `t+` for all project history.
 
 Bypasses Haiku entirely. `harness.py` assembles the full session transcript and a capabilities reference, then spawns an Opus subagent via the Task tool for deep meta-analysis. Looks for missed parallelism, subagent opportunities, tool choices, context pressure. Haiku runs cheap day-to-day. Opus comes in for the post-mortem.
 
-## How it was built
-
-spice-must-flow was developed across 25+ handoff sessions over 6 weeks, starting January 2026. Each session picked up from a structured handoff document — task status, learnings, artifacts, action items — and pushed the skill forward through iterative development with Claude Code itself.
-
-### Key learnings from development
-
-**Haiku garbles formatted output.** When the skill said "output this text", Haiku would interpret and reformat instead of copying verbatim. Solution: move all formatting to Python scripts, keep SKILL.md minimal, use example-based response formats.
-
-**Prompt length directly impacts TTFT.** Externalizing the preprocessor from the skill file (463 → 60 lines) dramatically reduced the "Puzzling..." delay before the first Bash call. The skill became a thin dispatcher; Python does the work.
-
-**Text clipping was premature optimization.** Original 1000-char truncation caused mid-sentence cuts. For Haiku on Claude Max, the 200k context window and cost are non-issues. Better to limit entry count and let the model see full content.
-
-**Input parsing belongs in the script, not the model.** Counting dots, commas, detecting button combos — Claude was unreliable at this. Moving parsing to Python and outputting `[buttons: ...]` made it deterministic.
-
-**Companion sessions must self-filter.** Without detection markers (`༼🌀🌀༽` + `SPICE_10191`), the companion would read its own transcripts and loop. Filtering reads 8000 bytes from each session to find the marker.
-
-**Read-only enforcement needs teeth.** Haiku tried to edit files when asked `>` (interpreted as "implement next step"). Fixed by strengthening the read-only section with explicit "NEVER" rules and removing Edit/Write from allowed tools.
-
-### Design principles
+## Design principles
 
 1. **Unified timeline** — all sessions merged chronologically
 2. **Combinable** — mix buttons freely, order doesn't matter

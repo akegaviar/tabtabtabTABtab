@@ -16,7 +16,7 @@ Flow tools, trading, games, experiments. [Why?](#the-thesis)
 
 | Skill | What it does |
 |-------|-------------|
-| **spice-must-flow** | Flow state companion. Watches your session, provides reflective insights on demand. Single-character inputs — `.` for what now, `..` for blind spots, `x` for what breaks. Runs on Haiku in a second tab. [README](plugins/spice-must-flow/README.md) |
+| **spice-must-flow** | Read-only session companion. Your agent is thinking — Alt+Tab over, type `.`, get a reflection, Alt+Tab back. [README](plugins/spice-must-flow/README.md) |
 
 ## The thesis
 

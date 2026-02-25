@@ -6,6 +6,8 @@ An experimental skill marketplace for Claude Code. Your agents run in tabs — t
 
 Flow tools, trading, games, experiments. [Why?](#the-thesis)
 
+This is my channel — instead of videos, I ship skills. [Discussions](https://github.com/akegaviar/tabtabtabTABtab/discussions) and [issues](https://github.com/akegaviar/tabtabtabTABtab/issues) are open. Come say hi.
+
 ## Install
 
 ```

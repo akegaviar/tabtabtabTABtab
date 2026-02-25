@@ -1,6 +1,6 @@
 # tabtabtabTABtab
 
-`kill the browser, burn tokens.`
+> kill the browser, burn tokens.
 
 An experimental skill marketplace for Claude Code. Your agents run in tabs — the TAB is where you go instead of opening a browser.
 

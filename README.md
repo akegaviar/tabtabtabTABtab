@@ -1,6 +1,6 @@
 # tabtabtabTABtab
 
-> kill the browser, burn tokens.
+> kill the browser, burn tokens
 
 An experimental skill marketplace for Claude Code. Your agents run in tabs — the TAB is where you go instead of opening a browser.
 
@@ -13,6 +13,8 @@ Flow tools, trading, games, experiments. [Why?](#the-thesis)
 ```
 
 ## Skills
+
+> After installing, enable auto-updates so you get new skills and fixes without reinstalling: `/plugin marketplace auto-update akegaviar/tabtabtabTABtab`
 
 | Skill | What it does |
 |-------|-------------|

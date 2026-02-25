@@ -16,7 +16,7 @@ Flow tools, trading, games, experiments. [Why?](#the-thesis)
 
 | Skill | What it does |
 |-------|-------------|
-| **spice-must-flow** | Read-only session companion. Your agent is thinking — Alt+Tab over, type `.`, get a reflection, Alt+Tab back. [README](plugins/spice-must-flow/README.md) |
+| **spice-must-flow** | Your agent is thinking. You could run 5 agents in parallel. You could open TikTok. Or you could protect your flow. [README](plugins/spice-must-flow/README.md) |
 
 ## The thesis
 

@@ -2,30 +2,37 @@
 
 ༼🌀🌀༽
 
-A read-only flow state companion for Claude Code. Observes your active coding session and provides perspective, analysis, and navigation — without interfering.
-
-**How to use it:** Keep a second terminal tab open in the same project directory with spice running. When your main Claude Code is thinking, Alt+Tab over, type `.` or `..x`, get a reflection, Alt+Tab back. Set up a shell alias so launching it is one word:
-
-```bash
-alias spice="claude --dangerously-skip-permissions --model haiku --strict-mcp-config --no-chrome /spice-must-flow"
-```
+Agentic coding is TikTok for builders — unless you protect your flow.
 
 ## The problem
 
-Agentic coding fractured your workday. You used to write code in one continuous stream. Now you prompt, wait, evaluate, prompt, wait, evaluate. The generative work — where flow lives — got displaced by an AI with "generative" in the name.
+Generative work is where flow lives. Generative AI — with *generative* right there in the name — took that from you. Now you prompt, wait, evaluate, prompt, wait, evaluate. So you drift. You open a browser. You check Twitter. You watch a YouTube short.
 
-So you drift. You open a browser. You check Twitter. You watch a YouTube short. The drift is your lifetime — it's never coming back. And your ability to focus erodes with every context switch.
+The drift is your lifetime. It's never coming back.
 
 There are currently two main responses:
 
 1. **Scale it** — run 5 agents in parallel. You sacrifice flow for throughput. Works for execution tasks.
-2. **Let someone mine it** — social media's attention playbook, now inside your IDE. Pure extraction.
+2. **Get mined** — social media's attention playbook, now inside your IDE. Pure extraction.
 
 spice-must-flow is option 3: **protect it.**
 
-## Three principles
+## Two tabs
 
-The companion implements three metacognition principles that keep you in flow during agent wait time:
+```
+TAB 1 — WORK                    TAB 2 — COMPANION
+You prompt                       Read-only — can't break anything
+You manage context               Single-character input
+Agent writes code                Fast — cheap model, small prompt
+You evaluate output              In context — reads your session live
+You decide what's next
+
+Full cognitive load              Near-zero cognitive load
+```
+
+Your main session runs in tab 1. The companion runs in tab 2. When your agent is thinking, Alt+Tab over, type `.` or `..x`, get a reflection, Alt+Tab back.
+
+## Three principles
 
 **1. Stay in the task context.** Don't leave the terminal. Don't open a browser. Don't break the loop. The perspective comes to you — where you already are. `preprocessor.py` reads your sessions live from `~/.claude/projects/`.
 
@@ -35,22 +42,13 @@ The companion implements three metacognition principles that keep you in flow du
 
 ## Quick start
 
-Open a second terminal in the same project directory:
-
-```bash
-claude --dangerously-skip-permissions --model haiku \
-       --strict-mcp-config --no-chrome "/spice-must-flow"
-```
-
-Or set up an alias:
-
 ```bash
 alias spice="claude --dangerously-skip-permissions --model haiku --strict-mcp-config --no-chrome /spice-must-flow"
 ```
 
 Then: `spice`
 
-Runs on Haiku with no MCPs, no Chrome UI, permissions skipped, thinking off. Fast and cheap as a side-channel observer.
+Runs on Haiku with no MCPs, no Chrome UI, permissions skipped. Fast and cheap as a side-channel observer.
 
 ## Buttons
 

@@ -1,5 +1,5 @@
 {
-  "name": "tabtabtabtabtab",
+  "name": "tabtabtabTABtab",
   "owner": {
     "name": "ake"
   },
@@ -16,8 +16,8 @@
       "author": {
         "name": "ake"
       },
-      "homepage": "https://github.com/akegaviar/tabtabtabtabtab/blob/main/plugins/spice-must-flow/README.md",
-      "repository": "https://github.com/akegaviar/tabtabtabtabtab",
+      "homepage": "https://github.com/akegaviar/tabtabtabTABtab/blob/main/plugins/spice-must-flow/README.md",
+      "repository": "https://github.com/akegaviar/tabtabtabTABtab",
       "license": "MIT",
       "keywords": ["flow-state", "session-observer", "companion", "reflection", "timeline", "harness"],
       "category": "flow-tools",

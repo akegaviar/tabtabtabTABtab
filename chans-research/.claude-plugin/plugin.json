@@ -1,0 +1,9 @@
+{
+  "name": "chans-research",
+  "version": "1.0.0",
+  "description": "Browse, search, and export threads across 20 imageboard and forum sites. Supports 4chan, 5ch, 2ch.hk, DCInside, Arca.live, and FoolFuuka archives with FTS5 full-text search.",
+  "author": {
+    "name": "ake.eth"
+  },
+  "license": "MIT"
+}

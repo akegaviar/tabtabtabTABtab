@@ -13,6 +13,11 @@
       "name": "markdown-tables",
       "source": "./markdown-tables",
       "description": "Fix, create, or reformat markdown tables."
+    },
+    {
+      "name": "chans-research",
+      "source": "./chans-research",
+      "description": "Browse, search, export imageboard threads."
     }
   ]
 }

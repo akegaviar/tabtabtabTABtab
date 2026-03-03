@@ -14,14 +14,9 @@ This is my channel — instead of videos, I ship skills. [Discussions](https://g
 /plugin marketplace add akegaviar/tabtabtabTABtab
 ```
 
-## Skills
+Each skill has its own README — browse the directories above.
 
-> After installing, enable auto-updates so you get new skills and fixes without reinstalling: `/plugin marketplace auto-update akegaviar/tabtabtabTABtab`
-
-| Skill | What it does |
-|-------|-------------|
-| **spice-must-flow** | Your agent is thinking. You could run 5 agents in parallel. You could open TikTok. Or you could protect your flow. [README](spice-must-flow/README.md) |
-| **markdown-tables** | Fix, create, or reformat markdown tables. Width budgets, symbol conventions, compression cascades, and splitting strategies. Never truncates — restructures. |
+> After installing, enable auto-updates: `/plugin marketplace auto-update akegaviar/tabtabtabTABtab`
 
 ## The thesis
 

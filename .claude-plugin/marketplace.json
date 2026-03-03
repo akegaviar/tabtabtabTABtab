@@ -23,6 +23,22 @@
       "category": "flow-tools",
       "tags": ["flow-state", "companion", "reflection", "session-observer"],
       "strict": false
+    },
+    {
+      "name": "markdown-tables",
+      "source": "./plugins/markdown-tables",
+      "description": "Fix, create, or reformat markdown tables. Width budgets, symbol conventions, compression rules, and splitting strategies.",
+      "version": "1.4.0",
+      "author": {
+        "name": "ake.eth"
+      },
+      "homepage": "https://github.com/akegaviar/tabtabtabTABtab/blob/main/plugins/markdown-tables/skills/markdown-tables/SKILL.md",
+      "repository": "https://github.com/akegaviar/tabtabtabTABtab",
+      "license": "MIT",
+      "keywords": ["markdown", "tables", "formatting", "compression", "symbols", "width-budget"],
+      "category": "productivity",
+      "tags": ["markdown", "tables", "formatting"],
+      "strict": false
     }
   ]
 }

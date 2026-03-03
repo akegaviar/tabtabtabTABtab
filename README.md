@@ -24,7 +24,7 @@ This is my channel — instead of videos, I ship skills. [Discussions](https://g
 
 ## The thesis
 
-Skills are a new form factor. Every new form factor — apps, posts, stories — changed what got made and how it got consumed. Skills are the next form. A human alone can't run one. An agent alone won't. They're consumed by the pair — what we call a **dyad**.
+Skills are a new form factor. Every new form factor — apps, posts, stories — changed what got made and how it got consumed. Skills are the next form. A human alone won't run one. An agent alone has no reason to. They're consumed by the pair — what we call a **dyad**.
 
 A dyad watches a YouTube video differently than a human alone — the agent fetches the transcript, surfaces key points, connects it to context. A dyad reads a paper differently — the agent maps arguments, the human provides judgment. The consumption mode itself is new.
 

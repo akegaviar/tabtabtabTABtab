@@ -1,11 +1,7 @@
 ---
 name: markdown-tables
 description: Fix, create, or reformat markdown tables. MUST load before editing any markdown table. Use when fixing tables, reformatting wide or broken tables, creating new tables, aligning columns, choosing table structure, compressing table width, or generating any tabular markdown. Contains required width budgets, symbol conventions, and compression rules. Do NOT use for CSV files, spreadsheets, JSON-to-table conversion, or HTML table generation.
-license: MIT
 context: fork
-metadata:
-  author: ake.eth
-  version: 1.4.0
 ---
 
 # Markdown Table Design

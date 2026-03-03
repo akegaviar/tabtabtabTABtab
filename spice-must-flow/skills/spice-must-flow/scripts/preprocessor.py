@@ -156,18 +156,21 @@ def main():
         print("[!] Project directory not found")
         sys.exit(1)
 
-    # Filter companion sessions
-    def is_companion_session(filepath):
-        """Check if session is a companion by looking for the actual welcome message.
+    # Filter skill sessions
+    SKILL_MARKERS = [
+        '༼🌀🌀༽ Spice flow connected.',     # spice-must-flow
+        '༼🌀🌀༽💬 Spice explain ready.',    # spice-must-explain
+    ]
 
-        Looks for the specific welcome pattern to avoid false positives when
-        markers appear in documentation or discussions about spice-must-flow.
+    def is_companion_session(filepath):
+        """Check if session belongs to any spice skill by looking for welcome markers.
+
+        Filters out all spice skill sessions to avoid cross-contamination.
         """
         try:
             with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
                 content = f.read(8000)
-                # Must have the actual welcome message
-                return '༼🌀🌀༽ Spice flow connected.' in content
+                return any(marker in content for marker in SKILL_MARKERS)
         except:
             return False
 

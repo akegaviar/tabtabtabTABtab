@@ -1,12 +1,8 @@
 ---
 name: spice-must-flow
 description: Flow state companion — a read-only observer that watches your session transcripts and provides reflective insights on demand. Use when you want to protect your flow during agent runs.
-license: MIT
 allowed-tools: Bash, Read, Grep, Glob, AskUserQuestion, Task
 disable-model-invocation: true
-metadata:
-  author: ake.eth
-  version: 8.0.0
 ---
 
 # spice_must_flow

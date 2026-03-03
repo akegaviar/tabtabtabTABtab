@@ -1,44 +1,18 @@
 {
   "name": "tabtabtabTABtab",
   "owner": {
-    "name": "ake"
-  },
-  "metadata": {
-    "description": "A curated channel of Claude Code skills — useful, experimental, and entertaining.",
-    "version": "1.0.0"
+    "name": "ake.eth"
   },
   "plugins": [
     {
       "name": "spice-must-flow",
-      "source": "./plugins/spice-must-flow",
-      "description": "Flow state companion — a read-only observer that watches your session transcripts and provides reflective insights on demand.",
-      "version": "8.0.0",
-      "author": {
-        "name": "ake"
-      },
-      "homepage": "https://github.com/akegaviar/tabtabtabTABtab/blob/main/plugins/spice-must-flow/README.md",
-      "repository": "https://github.com/akegaviar/tabtabtabTABtab",
-      "license": "MIT",
-      "keywords": ["flow-state", "session-observer", "companion", "reflection", "timeline", "harness"],
-      "category": "flow-tools",
-      "tags": ["flow-state", "companion", "reflection", "session-observer"],
-      "strict": false
+      "source": "./spice-must-flow",
+      "description": "Flow state companion for agent idle time."
     },
     {
       "name": "markdown-tables",
-      "source": "./plugins/markdown-tables",
-      "description": "Fix, create, or reformat markdown tables. Width budgets, symbol conventions, compression rules, and splitting strategies.",
-      "version": "1.4.0",
-      "author": {
-        "name": "ake.eth"
-      },
-      "homepage": "https://github.com/akegaviar/tabtabtabTABtab/blob/main/plugins/markdown-tables/skills/markdown-tables/SKILL.md",
-      "repository": "https://github.com/akegaviar/tabtabtabTABtab",
-      "license": "MIT",
-      "keywords": ["markdown", "tables", "formatting", "compression", "symbols", "width-budget"],
-      "category": "productivity",
-      "tags": ["markdown", "tables", "formatting"],
-      "strict": false
+      "source": "./markdown-tables",
+      "description": "Fix, create, or reformat markdown tables."
     }
   ]
 }

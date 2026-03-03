@@ -1,0 +1,9 @@
+{
+  "name": "spice-must-flow",
+  "version": "8.0.0",
+  "description": "Flow state companion — a read-only observer that watches your session transcripts and provides reflective insights on demand.",
+  "author": {
+    "name": "ake.eth"
+  },
+  "license": "MIT"
+}

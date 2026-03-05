@@ -14,7 +14,7 @@ This is where I ship SKILLs. [Discussions](https://github.com/akegaviar/tabtabta
 
 Each skill has its own README — browse the directories above.
 
-> After installing, enable auto-updates: `/plugin marketplace auto-update akegaviar/tabtabtabTABtab`
+After installing, enable auto-updates to stay on top: `/plugin marketplace auto-update akegaviar/tabtabtabTABtab`
 
 ## The thesis
 
@@ -26,15 +26,15 @@ There are three SKILL types per Anthropic:
 
 **Domain expertise.** The SKILL author's specialized knowledge, encoded. The consumer can use someone else's SKILL but can't make a judgement on it as they lack the domain knowledge to evaluate quality. Trust in the author is load-bearing.
 
-Example: Anthropic's official skill-creator SKILL. It encodes Anthropic's domain expertise about what makes a good SKILL. The consumer gets better SKILLs but can't evaluate whether the conventions are the right ones — they're trusting Anthropic's accumulated knowledge about their own system.
+*Example*: Anthropic's official skill-creator SKILL. It encodes Anthropic's domain expertise about what makes a good SKILL. The consumer gets better SKILLs but can't evaluate whether the conventions are the right ones — they're trusting Anthropic's accumulated knowledge about their own system.
 
 **Repeatable workflow.** A process, automated and packaged. The result is verifiable, which is why coding agents have been the first to take off.
 
-Example: The chans SKILL in this repository. The execution is verifiable.
+*Example*: The chans SKILL in this repository. The execution is verifiable.
 
 **New capability.** Something the LLM powering the agent can't do well on its own or can't do at all, but a properly harnessed agent can. A capability uplift.
 
-Example: The markdown-tables SKILL in this repository. The LLM produces bad markdown tables natively; with a SKILL, it produces good ones.
+*Example*: The markdown-tables SKILL in this repository. The LLM produces bad markdown tables natively; with a SKILL, it produces good ones.
 
 ### Emergence
 

@@ -1,6 +1,6 @@
 ---
 name: markdown-tables
-description: Fix, create, or reformat markdown tables. MUST load before editing any markdown table. Use when fixing tables, reformatting wide or broken tables, creating new tables, aligning columns, choosing table structure, compressing table width, or generating any tabular markdown. Contains required width budgets, symbol conventions, and compression rules. Do NOT use for CSV files, spreadsheets, JSON-to-table conversion, or HTML table generation.
+description: Fix, create, or reformat markdown tables. MUST load before editing any markdown table. Use when fixing tables, reformatting wide or broken tables, creating new tables, aligning columns, choosing table structure, compressing table width, or generating any tabular markdown. Also use when YOU are about to write or output any markdown table — in reports, comparisons, documentation, READMEs, or any structured output. The width budgets and symbol conventions apply to tables you generate, not just tables you fix. Contains required width budgets, symbol conventions, and compression rules. Do NOT use for CSV files, spreadsheets, JSON-to-table conversion, or HTML table generation.
 context: fork
 ---
 
@@ -148,7 +148,8 @@ When a table exceeds the width budget, apply these techniques in order:
 Stop as soon as every row is under budget. Apply the minimum change at each step — if
 expanding an abbreviation makes the table wider, compensate with the least disruptive
 technique first (reduce column padding, then abbreviate a header by a few chars) before
-resorting to footnotes. Once under budget, stop editing — don't keep shaving characters.
+resorting to footnotes. Once under budget, stop compressing — don't keep shaving characters.
+Still proceed to Step 5 (Verify) to add any missing legend, check footnote numbering, etc.
 
 ---
 

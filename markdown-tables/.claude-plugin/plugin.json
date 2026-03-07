@@ -1,6 +1,6 @@
 {
   "name": "markdown-tables",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Fix, create, or reformat markdown tables. Width budgets, symbol conventions, compression rules, and splitting strategies.",
   "author": {
     "name": "ake.eth"

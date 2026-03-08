@@ -60,6 +60,14 @@ Defaults to 120. The skill applies a compression cascade — symbols, then heade
 
 No `...`, no silent column drops, no abbreviated cell values. Every piece of information survives. If a cell is too wide, the full content moves to a footnote. If there are too many columns, the table splits. Structure bends; content doesn't.
 
+## Triggering limitation
+
+This skill triggers reliably when you explicitly mention tables — "fix the table," "reformat this table," "create a table." It does **not** self-trigger when the model autonomously decides to produce tables in response to an indirect request like "create a comparison doc of X vs Y."
+
+This is a Claude Code architecture constraint, not a skill description problem. Skill triggering is a single forward pass over descriptions against the user's prompt — the model doesn't plan ahead to determine its output will contain tables. The three possible fixes (PreToolUse hooks, CLAUDE.md meta-rules, description rewording) range from heavy infrastructure to provably ineffective.
+
+**What this means for you:** if you're asking for something that will obviously need tables (comparisons, matrices, reference docs), mention "table" in your prompt or invoke `/markdown-tables` directly. Alternatively, let the model produce the file first, then do a quick follow-up pass: "reformat the tables in X.md." The skill runs in `context: fork` so the formatting work happens in an isolated subcontext — your main conversation stays clean and it's fast.
+
 ## Files
 
 ```

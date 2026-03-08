@@ -1,6 +1,6 @@
 ---
 name: chans-research
-description: Research imageboards and forums (4chan, 5ch, leftypol, kohlchan, endchan, zzzchan, 2ch.hk, DCInside, Arca.live, Machi BBS, Shitaraba + FoolFuuka archives). Use when the user wants to (1) browse boards and catalogs across sites, (2) search threads by keyword with FTS5, (3) export threads to markdown, or (4) search historical archives. No auth required.
+description: Research imageboards and forums (4chan, 5ch, leftypol, kohlchan, endchan, zzzchan, 2ch.hk, DCInside, Arca.live, Machi BBS, Shitaraba + FoolFuuka archives). Use when the user wants to (1) browse boards and catalogs across sites, (2) search threads by keyword with FTS5, (3) export threads to markdown with optional local image download, (4) search historical archives, or (5) research community sentiment and discussion on any topic mentioned on imageboards. Trigger on mentions of 4chan, /biz/, /g/, /pol/, imageboard, anonymous forum, or "what are people saying about X". No auth required.
 context: fork
 ---
 
@@ -73,6 +73,12 @@ $CHANS catalog --site dcinside.com -b programming
 $CHANS thread --site 4chan.org -b biz -t 12345678
 $CHANS thread --site machi.to -b tokyo -t 12345 --stdout
 
+# Export with local images (downloads full + thumb to assets/)
+$CHANS thread --site 4chan.org -b biz -t 12345678 -D -o ./export
+
+# Download images for a thread already in the DB
+$CHANS download --site 4chan.org -b biz -t 12345678 -o ./export
+
 # Shitaraba uses category/id board format
 $CHANS catalog --site jbbs.shitaraba.net -b computer/43680
 
@@ -131,6 +137,22 @@ $CHANS thread --site 4chan.org -b g -t 12345678 --stdout
 $CHANS thread --site machi.to -b tokyo -t 12345 --stdout
 ```
 
+### 5. Download images locally
+
+The `-D` / `--download-images` flag on the `thread` command downloads all full-size and thumbnail images into an `assets/` subdirectory and rewrites the markdown export to use local `assets/` paths instead of CDN URLs. Files are named `{post_id}_full.{ext}` and `{post_id}_thumb.{ext}`.
+
+```bash
+# Export thread with images saved locally
+$CHANS thread --site 4chan.org -b biz -t 12345678 -D -o ./research
+
+# Standalone: download images for a thread already in the DB
+$CHANS download --site 4chan.org -b biz -t 12345678 -o ./research
+```
+
+Image-capable engines: **vichan** (4chan, leftypol, etc.), **lynxchan** (kohlchan, endchan), **makaba** (2ch.hk), **foolfuuka** (desuarchive, 4plebs). Japanese and Korean engines do not extract image URLs.
+
+**Always use `-D` when exporting threads for presentations or visual research.** Imageboard CDN URLs are ephemeral — threads get pruned and images disappear. Local downloads ensure images survive for use with `/frontend-slides` or any other downstream tool. The exported markdown with local `assets/` paths can be read directly as image source material.
+
 ## Architecture
 
 ```
@@ -169,3 +191,4 @@ Western sites default to 1 req/s. Japanese sites use 1.5-2.0s. Korean sites use 
 - **5ch.net** may return HTTP 451 from non-Japanese IPs — the adapter handles this gracefully
 - **Shitaraba** boards use `category/id` format (e.g., `computer/43680`)
 - FTS5 search works with CJK text (Japanese, Korean, Chinese). Queries of 3+ characters use the trigram index; shorter queries fall back to LIKE
+- **Images are ephemeral** on live boards — always use `-D` when exporting threads that will feed into presentations or visual work

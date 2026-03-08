@@ -5,6 +5,7 @@ import argparse
 import sys
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import urlparse
 
 # Ensure scripts/ is importable when run directly
 sys.path.insert(0, str(Path(__file__).parent))
@@ -39,6 +40,53 @@ def _truncate(text, length=80):
     if len(text) > length:
         return text[:length - 3] + "..."
     return text
+
+
+def _ext_from_url(url):
+    """Extract file extension from a URL."""
+    path = urlparse(url).path
+    ext = Path(path).suffix
+    return ext if ext else ".jpg"
+
+
+def _download_images(posts, assets_dir, fetcher=None):
+    """Download full and thumbnail images for posts into assets_dir.
+
+    Returns dict mapping original URLs to local relative paths (relative to
+    assets_dir's parent, i.e. 'assets/filename').
+    """
+    assets_dir = Path(assets_dir)
+    assets_dir.mkdir(parents=True, exist_ok=True)
+    if fetcher is None:
+        fetcher = Fetcher()
+
+    url_map = {}  # original_url → local relative path
+    count = 0
+
+    for p in posts:
+        pid = p["post_id"]
+        for url_key, suffix in [("image_url", "full"), ("thumb_url", "thumb")]:
+            url = p[url_key] if url_key in p.keys() else ""
+            if not url:
+                continue
+            ext = _ext_from_url(url)
+            fname = f"{pid}_{suffix}{ext}"
+            local_path = assets_dir / fname
+            if local_path.exists():
+                url_map[url] = f"assets/{fname}"
+                continue
+            try:
+                r = fetcher.get(url, max_retries=2)
+                if r and r.status_code == 200:
+                    local_path.write_bytes(r.content)
+                    url_map[url] = f"assets/{fname}"
+                    count += 1
+            except Exception as e:
+                print(f"  warning: failed to download {url}: {e}",
+                      file=sys.stderr)
+
+    print(f"  Downloaded {count} images to {assets_dir}/")
+    return url_map
 
 
 # ── commands ──────────────────────────────────────────────────────────
@@ -107,7 +155,8 @@ def cmd_catalog(args):
         snippet = _truncate(p.get("comment", ""), 70)
         title = sub if sub else snippet
         pinned = " [pinned]" if p.get("is_pinned") else ""
-        print(f"[{tid}] {title} ({replies}r/{images}i){pinned}")
+        img_tag = " [img]" if p.get("image_url") else ""
+        print(f"[{tid}] {title} ({replies}r/{images}i){pinned}{img_tag}")
 
     db.close()
 
@@ -157,10 +206,14 @@ def cmd_thread(args):
         pid = p["post_id"]
         sub_line = f"**{p['subject']}**\n\n" if p.get("subject") else ""
         comment = p.get("comment", "")
+        image_url = p.get("image_url", "")
         lines.append(f"{heading} — {author} — {ts} — No.{pid}")
         lines.append("")
         if sub_line:
             lines.append(sub_line)
+        if image_url:
+            lines.append(f"![image]({image_url})")
+            lines.append("")
         lines.append(comment)
         lines.append("")
         lines.append("---")
@@ -168,13 +221,22 @@ def cmd_thread(args):
 
     content = "\n".join(lines)
 
-    if args.stdout:
+    if args.stdout and not getattr(args, "download_images", False):
         print(content)
     else:
         out_dir = Path(args.output)
         out_dir.mkdir(parents=True, exist_ok=True)
         safe_site = args.site.replace(".", "_")
         safe_board = args.board.replace("/", "_")
+
+        # Download images if requested
+        if getattr(args, "download_images", False):
+            assets_dir = out_dir / "assets"
+            url_map = _download_images(posts, assets_dir, fetcher)
+            # Replace CDN URLs with local paths in content
+            for orig_url, local_path in url_map.items():
+                content = content.replace(orig_url, local_path)
+
         fname = f"{safe_site}_{safe_board}_{args.thread}.md"
         out_path = out_dir / fname
         out_path.write_text(content)
@@ -320,11 +382,15 @@ def cmd_export(args):
             pid = p["post_id"]
             sub = p["subject"]
             comment = p["comment"]
+            image_url = p["image_url"] if "image_url" in p.keys() else ""
             is_op = " [OP]" if p["is_op"] else ""
             lines.append(f"### No.{pid}{is_op} — {author} — {ts}")
             lines.append("")
             if sub:
                 lines.append(f"**{sub}**")
+                lines.append("")
+            if image_url:
+                lines.append(f"![image]({image_url})")
                 lines.append("")
             lines.append(comment)
             lines.append("")
@@ -338,6 +404,32 @@ def cmd_export(args):
     out_path = out_dir / fname
     out_path.write_text(content)
     print(f"Exported {len(results)} results to {out_path}")
+
+    db.close()
+
+
+def cmd_download(args):
+    """Download images for a thread from the DB (or fetch first)."""
+    fetcher = _get_fetcher()
+    db = _get_db()
+
+    # Check if thread is already in DB
+    posts = db.get_thread(args.site, args.board, int(args.thread))
+    if not posts:
+        # Fetch it first
+        adapter = get_adapter(args.site, fetcher)
+        raw_posts = adapter.fetch_thread(args.board, args.thread)
+        if not raw_posts:
+            print(f"Thread {args.thread} not found on /{args.board}/ at {args.site}")
+            db.close()
+            return
+        db.upsert_posts(raw_posts)
+        posts = db.get_thread(args.site, args.board, int(args.thread))
+
+    out_dir = Path(args.output)
+    assets_dir = out_dir / "assets"
+    url_map = _download_images(posts, assets_dir, fetcher)
+    print(f"  {len(url_map)} image files in {assets_dir}/")
 
     db.close()
 
@@ -403,6 +495,8 @@ def main():
     p.add_argument("--output", "-o", default=str(DEFAULT_OUTPUT))
     p.add_argument("--stdout", action="store_true",
                    help="Print to stdout instead of file")
+    p.add_argument("--download-images", "-D", action="store_true",
+                   help="Download full+thumb images to assets/ dir")
 
     # search
     p = sub.add_parser("search", help="Search across ingested data")
@@ -425,6 +519,13 @@ def main():
     p.add_argument("--output", "-o", default=str(DEFAULT_OUTPUT))
     p.add_argument("--limit", "-l", type=int, default=100)
 
+    # download
+    p = sub.add_parser("download", help="Download images for a thread")
+    p.add_argument("--site", "-s", default="4chan.org")
+    p.add_argument("--board", "-b", required=True)
+    p.add_argument("--thread", "-t", required=True, help="Thread ID")
+    p.add_argument("--output", "-o", default=str(DEFAULT_OUTPUT))
+
     # stats
     sub.add_parser("stats", help="Show DB statistics")
 
@@ -438,6 +539,7 @@ def main():
         "search": cmd_search,
         "ingest": cmd_ingest,
         "export": cmd_export,
+        "download": cmd_download,
         "stats": cmd_stats,
     }
     cmds[args.command](args)

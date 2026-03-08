@@ -39,6 +39,11 @@ SITES = {
         thread_path="/{board}/thread/{thread_id}.json",
         boards_path="/boards.json",
         rate_limit=1.0,
+        extra={
+            "image_base": "https://i.4cdn.org",
+            "image_path": "/{board}/{tim}{ext}",
+            "thumb_path": "/{board}/{tim}s.jpg",
+        },
     ),
     "leftypol.org": SiteConfig(
         domain="leftypol.org",
@@ -145,6 +150,11 @@ SITES = {
         boards_path="/boards.json",
         rate_limit=1.0,
         default_boards=["pnd", "qresearch", "random", "pol", "v"],
+        extra={
+            "image_base": "https://media.8kun.top",
+            "image_path": "/file_store/{tim}{ext}",
+            "thumb_path": "/file_store/thumb/{tim}{ext}",
+        },
     ),
 
     # ── jschan ──
@@ -357,8 +367,26 @@ class VichanAdapter:
                                               is_op=(i == 0)))
         return posts
 
+    def _image_urls(self, p, board):
+        """Build full and thumbnail image URLs from a vichan post dict."""
+        tim = p.get("tim")
+        ext = p.get("ext")
+        if not tim or not ext:
+            return "", ""
+        image_base = self.site.extra.get("image_base", self.site.api_base)
+        image_path = self.site.extra.get(
+            "image_path", "/{board}/src/{tim}{ext}")
+        thumb_path = self.site.extra.get(
+            "thumb_path", "/{board}/thumb/{tim}s.jpg")
+        image_url = image_base + image_path.format(
+            board=board, tim=tim, ext=ext)
+        thumb_url = image_base + thumb_path.format(
+            board=board, tim=tim, ext=ext)
+        return image_url, thumb_url
+
     def _normalize_catalog_post(self, t, board):
         """Normalize a catalog thread entry to canonical schema."""
+        image_url, thumb_url = self._image_urls(t, board)
         return {
             "post_id": t["no"],
             "thread_id": t["no"],
@@ -374,10 +402,13 @@ class VichanAdapter:
             "is_pinned": 1 if t.get("sticky") else 0,
             "is_closed": 1 if t.get("closed") else 0,
             "fetched_at": _now_ts(),
+            "image_url": image_url,
+            "thumb_url": thumb_url,
         }
 
     def _normalize_post(self, p, board, thread_id, is_op=False):
         """Normalize a single post to canonical schema."""
+        image_url, thumb_url = self._image_urls(p, board)
         return {
             "post_id": p["no"],
             "thread_id": thread_id,
@@ -395,6 +426,8 @@ class VichanAdapter:
             "is_pinned": 1 if p.get("sticky") else 0,
             "is_closed": 1 if p.get("closed") else 0,
             "fetched_at": _now_ts(),
+            "image_url": image_url,
+            "thumb_url": thumb_url,
         }
 
     def catalog_url(self, board):
@@ -465,8 +498,22 @@ class LynxchanAdapter:
         except (ValueError, TypeError):
             return 0
 
+    def _image_urls(self, p):
+        """Extract first file URL from a LynxChan post."""
+        files = p.get("files") or []
+        if not files:
+            return "", ""
+        f = files[0]
+        path = f.get("path", "")
+        thumb = f.get("thumb", "")
+        base = self.site.api_base
+        image_url = (base + path) if path and path.startswith("/") else path
+        thumb_url = (base + thumb) if thumb and thumb.startswith("/") else thumb
+        return image_url or "", thumb_url or ""
+
     def _normalize_thread(self, t, board):
         tid = t.get("threadId", t.get("postId", t.get("no", 0)))
+        image_url, thumb_url = self._image_urls(t)
         return {
             "post_id": tid,
             "thread_id": tid,
@@ -484,10 +531,13 @@ class LynxchanAdapter:
             "is_pinned": 1 if t.get("pinned") else 0,
             "is_closed": 1 if t.get("locked") else 0,
             "fetched_at": _now_ts(),
+            "image_url": image_url,
+            "thumb_url": thumb_url,
         }
 
     def _normalize_post(self, p, board, thread_id, is_op=False):
         pid = p.get("postId", p.get("threadId", p.get("no", 0)))
+        image_url, thumb_url = self._image_urls(p)
         return {
             "post_id": pid,
             "thread_id": thread_id,
@@ -503,6 +553,8 @@ class LynxchanAdapter:
             "is_pinned": 1 if p.get("pinned") else 0,
             "is_closed": 1 if p.get("locked") else 0,
             "fetched_at": _now_ts(),
+            "image_url": image_url,
+            "thumb_url": thumb_url,
         }
 
     def catalog_url(self, board):
@@ -576,8 +628,22 @@ class MakabaAdapter:
                                                   is_op=(i == 0)))
         return posts
 
+    def _image_urls(self, p):
+        """Extract first file URL from a Makaba post."""
+        files = p.get("files") or []
+        if not files:
+            return "", ""
+        f = files[0]
+        path = f.get("path", "")
+        thumb = f.get("thumbnail", "")
+        base = "https://2ch.hk"
+        image_url = (base + path) if path and path.startswith("/") else path
+        thumb_url = (base + thumb) if thumb and thumb.startswith("/") else thumb
+        return image_url or "", thumb_url or ""
+
     def _normalize_catalog_post(self, t, board):
         num = int(t.get("num", 0))
+        image_url, thumb_url = self._image_urls(t)
         return {
             "post_id": num,
             "thread_id": num,
@@ -593,10 +659,13 @@ class MakabaAdapter:
             "is_pinned": 1 if t.get("sticky") else 0,
             "is_closed": 1 if t.get("closed") else 0,
             "fetched_at": _now_ts(),
+            "image_url": image_url,
+            "thumb_url": thumb_url,
         }
 
     def _normalize_post(self, p, board, thread_id, is_op=False):
         num = int(p.get("num", 0))
+        image_url, thumb_url = self._image_urls(p)
         return {
             "post_id": num,
             "thread_id": thread_id,
@@ -612,6 +681,8 @@ class MakabaAdapter:
             "is_pinned": 1 if p.get("sticky") else 0,
             "is_closed": 1 if p.get("closed") else 0,
             "fetched_at": _now_ts(),
+            "image_url": image_url,
+            "thumb_url": thumb_url,
         }
 
     def catalog_url(self, board):
@@ -695,6 +766,12 @@ class FoolFuukaAdapter:
         pid = int(p.get("num", p.get("doc_id", 0)))
         tid = int(p.get("thread_num", thread_id or pid))
         ts = int(p.get("timestamp", 0))
+        media = p.get("media")
+        image_url = ""
+        thumb_url = ""
+        if media:
+            image_url = media.get("media_link", "") or ""
+            thumb_url = media.get("thumb_link", "") or ""
         return {
             "post_id": pid,
             "thread_id": tid,
@@ -706,11 +783,13 @@ class FoolFuukaAdapter:
             "author": p.get("name", "Anonymous"),
             "timestamp": ts,
             "reply_count": 0,
-            "image_count": 1 if p.get("media") else 0,
+            "image_count": 1 if media else 0,
             "is_op": 1 if is_op or str(pid) == str(tid) else 0,
             "is_pinned": 0,
             "is_closed": 0,
             "fetched_at": _now_ts(),
+            "image_url": image_url,
+            "thumb_url": thumb_url,
         }
 
     def thread_url(self, board, thread_id):

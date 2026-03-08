@@ -8,6 +8,7 @@ Models can read APIs, but imageboards are a mess — 10 different engines, encod
 - Ingest board catalogs into a local SQLite database with FTS5 full-text search
 - Search across all ingested data — works with CJK text (Japanese, Korean, Chinese)
 - Export threads and search results to markdown
+- Download thread images locally (`-D` flag) — saves full + thumbnail to `assets/` and rewrites markdown paths for durable offline use
 - Search FoolFuuka archives (desuarchive, 4plebs) via live API
 
 ## Supported sites
@@ -41,7 +42,7 @@ Data is stored in `~/.claude/cache/chans.db` (SQLite with WAL mode). FTS5 uses t
 ## Important notes
 
 - All APIs are **read-only** — no posting capability
-- Threads on live boards are **ephemeral** — export before they expire
+- Threads on live boards are **ephemeral** — export before they expire. Images are even more ephemeral — use `-D` when exporting threads for presentations or visual work
 - Content is **unmoderated** — expect raw language and NSFW content
 - Only dependency: Python 3.10+ with `requests` (`pip install requests`)
 - No authentication required — all supported APIs are public

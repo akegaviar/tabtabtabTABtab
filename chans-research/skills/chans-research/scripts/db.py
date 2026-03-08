@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS posts (
     is_pinned   INTEGER DEFAULT 0,
     is_closed   INTEGER DEFAULT 0,
     fetched_at  INTEGER NOT NULL,
+    image_url   TEXT DEFAULT '',
+    thumb_url   TEXT DEFAULT '',
     PRIMARY KEY (site, board, thread_id, post_id)
 );
 
@@ -81,6 +83,7 @@ class ChansDB:
         if not needs_fts_rebuild:
             needs_fts_rebuild = self._migrate_fts_tokenizer()
         self.conn.executescript(SCHEMA)
+        self._migrate_add_image_cols()
         if needs_fts_rebuild:
             self._rebuild_fts()
 
@@ -110,7 +113,7 @@ class ChansDB:
             DROP INDEX IF EXISTS idx_posts_timestamp;
             DROP INDEX IF EXISTS idx_posts_site_board;
         """)
-        # Rebuild table with new PK
+        # Rebuild table with new PK (includes image columns)
         self.conn.execute("""
             CREATE TABLE posts_new (
                 site        TEXT NOT NULL,
@@ -127,12 +130,21 @@ class ChansDB:
                 is_pinned   INTEGER DEFAULT 0,
                 is_closed   INTEGER DEFAULT 0,
                 fetched_at  INTEGER NOT NULL,
+                image_url   TEXT DEFAULT '',
+                thumb_url   TEXT DEFAULT '',
                 PRIMARY KEY (site, board, thread_id, post_id)
             )
         """)
         self.conn.execute("""
-            INSERT OR IGNORE INTO posts_new
-            SELECT * FROM posts
+            INSERT OR IGNORE INTO posts_new (
+                site, board, post_id, thread_id, subject, comment,
+                author, timestamp, reply_count, image_count,
+                is_op, is_pinned, is_closed, fetched_at
+            )
+            SELECT site, board, post_id, thread_id, subject, comment,
+                   author, timestamp, reply_count, image_count,
+                   is_op, is_pinned, is_closed, fetched_at
+            FROM posts
         """)
         self.conn.execute("DROP TABLE posts")
         self.conn.execute("ALTER TABLE posts_new RENAME TO posts")
@@ -157,6 +169,23 @@ class ChansDB:
             return True  # SCHEMA will create FTS, then _rebuild_fts populates it
         return False
 
+    def _migrate_add_image_cols(self):
+        """Add image_url and thumb_url columns to existing posts table."""
+        row = self.conn.execute(
+            "SELECT sql FROM sqlite_master WHERE type='table' AND name='posts'"
+        ).fetchone()
+        if not row or not row[0]:
+            return
+        if "image_url" in row[0]:
+            return  # already has image columns
+        self.conn.execute(
+            "ALTER TABLE posts ADD COLUMN image_url TEXT DEFAULT ''"
+        )
+        self.conn.execute(
+            "ALTER TABLE posts ADD COLUMN thumb_url TEXT DEFAULT ''"
+        )
+        self.conn.commit()
+
     def _rebuild_fts(self):
         """Repopulate FTS index from existing posts."""
         self.conn.execute("""
@@ -177,15 +206,21 @@ class ChansDB:
         """
         if not posts:
             return 0
+        # Ensure image fields exist (adapters without image support)
+        for p in posts:
+            p.setdefault("image_url", "")
+            p.setdefault("thumb_url", "")
         sql = """
             INSERT INTO posts (
                 site, board, post_id, thread_id, subject, comment,
                 author, timestamp, reply_count, image_count,
-                is_op, is_pinned, is_closed, fetched_at
+                is_op, is_pinned, is_closed, fetched_at,
+                image_url, thumb_url
             ) VALUES (
                 :site, :board, :post_id, :thread_id, :subject, :comment,
                 :author, :timestamp, :reply_count, :image_count,
-                :is_op, :is_pinned, :is_closed, :fetched_at
+                :is_op, :is_pinned, :is_closed, :fetched_at,
+                :image_url, :thumb_url
             )
             ON CONFLICT(site, board, thread_id, post_id) DO UPDATE SET
                 subject = CASE WHEN excluded.subject != ''
@@ -200,6 +235,10 @@ class ChansDB:
                                   THEN excluded.reply_count ELSE posts.reply_count END,
                 image_count = CASE WHEN excluded.image_count > 0
                                   THEN excluded.image_count ELSE posts.image_count END,
+                image_url = CASE WHEN excluded.image_url != ''
+                                 THEN excluded.image_url ELSE posts.image_url END,
+                thumb_url = CASE WHEN excluded.thumb_url != ''
+                                 THEN excluded.thumb_url ELSE posts.thumb_url END,
                 is_pinned = excluded.is_pinned,
                 is_closed = excluded.is_closed,
                 fetched_at = excluded.fetched_at
